@@ -1,8 +1,9 @@
 import React,{Component}from 'react';
 import PropTypes from 'prop-types';
-import LoginForm from './LoginForm';
+import LoginForm from '../forms/LoginForm';
 import {connect} from 'react-redux';
-import {login} from '../actions/auth';
+import {Link} from 'react-router-dom';
+import {login} from '../../actions/auth';
 
 class LoginPage extends Component{
 
@@ -13,13 +14,14 @@ class LoginPage extends Component{
 
     submit=(data)=>{
         return this.props.login(data)
-            .then(() => this.props.history.push("/all"));
+            .then(() => this.props.history.push("/"));
     }
     render(){
         return(
             <div>
-            <h1>Login Page</h1>
-            <LoginForm submit={this.submit}/>
+                <h1>Login Page</h1>
+                <LoginForm submit={this.submit}/>
+                <div>Don't have an account? <Link to="/signup">Sign up here</Link></div>
             </div>
         )
 }

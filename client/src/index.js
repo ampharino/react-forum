@@ -19,7 +19,7 @@ const store = createStore(
 );
 
 if(localStorage.JWT){
-    const user ={token:localStorage.JWT};
+    const user ={username:localStorage.Username,token:localStorage.JWT};
     store.dispatch(userLoggedIn(user));
 }
 ReactDOM.render(

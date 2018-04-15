@@ -1,9 +1,8 @@
 import React,{Component}from 'react';
 import PropTypes from 'prop-types';
-import LoginForm from './LoginForm';
 import {connect} from 'react-redux';
-import {signup} from '../actions/auth';
-import SignupForm from './SignupForm';
+import {signup} from '../../actions/auth';
+import SignupForm from '../forms/SignupForm';
 
 class SignupPage extends Component{
 
@@ -14,7 +13,7 @@ class SignupPage extends Component{
 
     submit = (data) =>{
         return this.props.signup(data)
-            .then(() => this.props.history.push("/all"));
+            .then(() => this.props.history.push("/"));
     }
     render(){
         return(

@@ -14,7 +14,7 @@ router.post('/', (req,res)=>{
             newUser.save()
                 .then(newUser => {
                     if (newUser) {
-                        res.status(200).json({user: newUser.toAuthJSON()})
+                        res.status(201).json({user: newUser.toAuthJSON()})
                     }
                     else {
                         res.status(400).json({errors: {global: "Failed to create account"}});

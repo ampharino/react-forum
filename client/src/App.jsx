@@ -1,26 +1,40 @@
 import React, { Component } from 'react';
 import {Route} from 'react-router-dom';
-import HomePage from "./components/HomePage";
-import LoginPage from "./components/LoginPage"
-import FrontPage from "./components/FrontPage"
-import UserRoute from "./components/UserRoute"
-import GuestRoute from "./components/GuestRoute"
 import PropTypes from 'prop-types';
-import SignupPage from "./components/SignupPage";
+import {connect} from 'react-redux';
+import HomePage from "./components/pages/HomePage";
+import LoginPage from "./components/pages/LoginPage"
+import FrontPage from "./components/pages/FrontPage"
+import UserRoute from "./components/pageroutes/UserRoute"
+import GuestRoute from "./components/pageroutes/GuestRoute"
 
-const App =({location}) => (
+import SignupPage from "./components/pages/SignupPage";
+import NavBar from './components/misc/Navigation';
+import NewThreadPage from './components/pages/NewThreadPage';
+import ThreadPage from './components/pages/ThreadPage';
+
+const App =({location,isAuthenticated}) => (
     <div className="ui container">
-        <Route location={location} path="/" exact component={HomePage}/>
+        {isAuthenticated && <NavBar/>}
+        <UserRoute location={location} path="/" exact component={FrontPage}/>
         <GuestRoute location={location} path="/login" exact component={LoginPage}/>
         <GuestRoute location={location} path="/signup" exact component={SignupPage}/>
-        <UserRoute location={location} path="/all" exact component={FrontPage}/>
+        <UserRoute location={location} path="/newthread" exact component={NewThreadPage}/>
+        <UserRoute location={location} path="/thread/:id" exact component={ThreadPage}/>
+
     </div>
 );
 
 App.propTypes ={
     location:PropTypes.shape({
         pathname:PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    isAuthenticated:PropTypes.bool.isRequired
 }
+function mapStateToProps(state){
+    return{
+        isAuthenticated: !!state.user.token
+    }
 
-export default App;
+}
+export default connect(mapStateToProps)(App);

@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const secrets = require('./config/secrets');
 const auth = require('./routes/auth');
 const users = require('./routes/users');
+const threads = require('./routes/threads');
+const comments = require('./routes/comments');
 
 const app = express();
 
@@ -23,6 +25,8 @@ app.use(bodyParser.json());
 
 app.use("/api/auth",auth);
 app.use('/api/users',users);
+app.use('/api/threads',threads);
+app.use('/api/comments',comments);
 
 
 

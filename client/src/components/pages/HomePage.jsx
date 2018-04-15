@@ -3,7 +3,7 @@ import {Route, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {button} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import {logout} from '../actions/auth';
+import {logout} from '../../actions/auth';
 
 
 const HomePage = ({isAuthenticated, logout}) =>(

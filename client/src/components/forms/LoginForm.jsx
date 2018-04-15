@@ -1,22 +1,20 @@
-import React,{Component} from 'react'
-import {Form,Button,Message} from 'semantic-ui-react'
-import InlineError from './InlineError'
+import React, {Component} from 'react'
+import {Form, Button, Message} from 'semantic-ui-react';
+import InlineError from '../misc/InlineError';
 
-class SignupForm extends Component{
+class LoginForm extends Component{
     constructor(props){
-        super(props)
+        super(props);
         this.state={
-            data: {
+            data:{
                 username:'',
                 password:''
             },
-            loading: false,
-            errors:{}
+            loading:false,
+            errors:{},
         }
         this.onChange=this.onChange.bind(this);
         this.onSubmit=this.onSubmit.bind(this);
-
-
     }
     onChange = (e) =>{
         this.setState({
@@ -44,6 +42,7 @@ class SignupForm extends Component{
         }
     }
 
+
     render(){
         return(
             <Form onSubmit={this.onSubmit} loading={this.state.loading} >
@@ -52,13 +51,14 @@ class SignupForm extends Component{
                         <Message.Header>Something went wrong</Message.Header>
                         <p>{this.state.errors.global}</p>
                     </Message>
-                )}
+                    )}
                 <Form.Field error={!!this.state.errors.username}>
                     <label htmlFor="username">Username</label>
                     <input
                         type="username"
                         id="username"
                         name="username"
+                        placeholder="username"
                         value={this.state.data.username}
                         onChange={this.onChange}
                     />
@@ -70,15 +70,15 @@ class SignupForm extends Component{
                         type="password"
                         id="password"
                         name="password"
+                        placeholder="password"
                         value={this.state.data.password}
                         onChange={this.onChange}
                     />
                     {this.state.errors.password && <InlineError text={this.state.errors.password}/>}
                 </Form.Field>
-                <Button primary>Signup</Button>
+                <Button primary>Login</Button>
             </Form>
         );
     }
 }
-
-export default SignupForm
+export default LoginForm;
