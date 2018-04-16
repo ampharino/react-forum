@@ -47,7 +47,7 @@ describe('Users',()=>{
                 .post('/api/users')
                 .send(newUser)
                 .end((err,res) => {
-                    res.should.have.status(200);
+                    res.should.have.status(201);
                     res.body.should.be.a('object');
                     res.body.should.have.property('user')
                     res.body.user.should.have.property('username')
