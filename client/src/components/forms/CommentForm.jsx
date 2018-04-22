@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Form,Button,Message} from 'semantic-ui-react'
+import {Form,Button,Message,Segment, Comment} from 'semantic-ui-react'
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import InlineError from '../misc/InlineError'
@@ -43,26 +43,28 @@ class CommentForm extends Component{
 
     render(){
         return(
-            this.props.visible && <Form onSubmit={this.onSubmit} loading={this.state.loading} >
-                {this.state.errors.global && (
-                    <Message negative>
-                        <Message.Header>Something went wrong</Message.Header>
-                        <p>{this.state.errors.global}</p>
-                    </Message>
-                )}
-                <Form.Field error={!!this.state.errors.body}>
-                    <label>Write a comment</label>
-                    <textarea
-                        type="body"
-                        id="body"
-                        name="body"
-                        value={this.state.data.body}
-                        onChange={this.onChange}
-                    />
-                    {this.state.errors.body && <InlineError text={this.state.errors.body}/>}
-                </Form.Field>
-                <Button primary>Post</Button>
-            </Form>
+            this.props.visible &&
+            <Segment>
+                <Form onSubmit={this.onSubmit} loading={this.state.loading} >
+                    {this.state.errors.global && (
+                        <Message negative>
+                            <Message.Header>Something went wrong</Message.Header>
+                            <p>{this.state.errors.global}</p>
+                        </Message>
+                    )}
+                    <Form.Field error={!!this.state.errors.body}>
+                        <textarea
+                            type="body"
+                            id="body"
+                            name="body"
+                            value={this.state.data.body}
+                            onChange={this.onChange}
+                        />
+                        {this.state.errors.body && <InlineError text={this.state.errors.body}/>}
+                    </Form.Field>
+                    <Button size='tiny'>Post</Button>
+                </Form>
+            </Segment>
         );
     }
 }

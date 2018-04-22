@@ -32,4 +32,31 @@ router.get('/:id',(req,res)=>{
         }
     })
 })
+
+router.put('/:id', (req,res)=>{
+    Thread.findOne({_id:req.params.id}).then(thread=>{
+        if(!thread){
+            res.status(404).json({errors:{global:"Thread does not exist"}})
+        }
+        else{
+            thread.body = req.body.details.body
+            thread.save().then(updatedThread =>{
+                res.status(200).json({thread:updatedThread})
+            })
+        }
+    })
+})
+
+router.delete('/:id', (req,res)=>{
+    Thread.findOne({_id:req.params.id}).then(thread=>{
+        if(!thread){
+            res.status(404).sjon({errors:{global:'Thread does not exist'}})
+        }
+        else{
+            thread.remove().then(()=>{
+                res.status(200).json({message:'Deleted thread'})
+            })
+        }
+    })
+})
 module.exports = router;

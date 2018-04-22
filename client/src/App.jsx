@@ -12,6 +12,7 @@ import SignupPage from "./components/pages/SignupPage";
 import NavBar from './components/misc/Navigation';
 import NewThreadPage from './components/pages/NewThreadPage';
 import ThreadPage from './components/pages/ThreadPage';
+import HistoryPage from "./components/pages/HistoryPage";
 
 const App =({location,isAuthenticated}) => (
     <div className="ui container">
@@ -21,6 +22,7 @@ const App =({location,isAuthenticated}) => (
         <GuestRoute location={location} path="/signup" exact component={SignupPage}/>
         <UserRoute location={location} path="/newthread" exact component={NewThreadPage}/>
         <UserRoute location={location} path="/thread/:id" exact component={ThreadPage}/>
+        <UserRoute location={location} path="/:username" exact component={HistoryPage}/>
 
     </div>
 );

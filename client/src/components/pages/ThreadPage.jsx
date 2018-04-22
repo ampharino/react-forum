@@ -7,6 +7,8 @@ import {createComment} from '../../actions/comment'
 import styles from './ThreadPage.css';
 import CommentForm from '../forms/CommentForm';
 import Moment from 'react-moment';
+import CommentDisplay from '../misc/CommentDisplay'
+import ThreadDisplay from '../misc/ThreadDisplay'
 
 
 class ThreadPage extends Component{
@@ -38,7 +40,6 @@ class ThreadPage extends Component{
     }
     submit = (data) =>{
         data.thread = this.state.threadData._id
-        console.log(data)
         return this.props.createComment(data)
             .then(() => window.location.reload());
     }
@@ -52,26 +53,16 @@ class ThreadPage extends Component{
     render(){
         let commentList = this.state.comments.map(comment=>{
             return(
-                <Comment key={comment._id}>
-                    <Comment.Content>
-                        <Comment.Author as='a'>{comment.author}</Comment.Author>
-                        <Comment.Metadata><Moment fromNow>{comment.created}</Moment></Comment.Metadata>
-                        <Comment.Text>{comment.body}</Comment.Text>
-                        <Comment.Actions><a>Reply</a></Comment.Actions>
-                    </Comment.Content>
-                </Comment>
+                <CommentDisplay key={comment._id} comment={comment}/>
             )
         })
         return(
             <div>
                 <Segment loading={this.state.loading}>
-                    <h2>{this.state.threadData.title}</h2>
-                    <span>created by {this.state.threadData.author} </span> <Moment fromNow>{this.state.threadData.created}</Moment>
-                    <Divider horizontal></Divider>
-                    <Message className='messagebody'>{this.state.threadData.body}</Message>
+                    <ThreadDisplay threadData={this.state.threadData}/>
                 </Segment>
                 <Button active={this.state.commentBox} onClick={this.toggleComment}>Comment on this thread</Button>
-                <CommentForm visible={this.state.commentBox} submit={this.submit}/>
+                <CommentForm visible={this.state.commentBox} submit={this.submit} body=''/>
                 <Segment loading={this.state.loading}>
                     <Comment.Group>
                         <Header as='h3' dividing>Comments</Header>
@@ -85,7 +76,13 @@ class ThreadPage extends Component{
 
 }
 ThreadPage.propTypes={
+    username:PropTypes.string.isRequired,
     createComment:PropTypes.func.isRequired
 }
+function mapStateToProps(state){
+    return{
+        username:state.user.username
+    }
+}
 
-export default connect(null,{createComment})(ThreadPage)
+export default connect(mapStateToProps,{createComment})(ThreadPage)
