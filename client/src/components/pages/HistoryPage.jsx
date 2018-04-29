@@ -57,6 +57,7 @@ class HistoryPage extends Component{
         ]
         return(
                 <Segment loading={this.state.loading}>
+                    <h3>{`${this.props.match.params.username}'s history`}</h3>
                     <Tab menu={{secondary:true,pointing:true}} panes={panes}/>
                 </Segment>
 

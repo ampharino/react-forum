@@ -34,10 +34,24 @@ router.put('/:id', (req,res)=>{
     })
 })
 
+router.put('/karma/:id',(req,res)=>{
+    Comment.findOne({_id:req.params.id}).then(comment=>{
+        if(!comment){
+            res.status(404).json({errors:{global:"Thread does not exist"}})
+        }
+        else{
+            comment.karma+=req.body.vote
+            comment.save().then(updatedComment=>{
+                res.status(200).json({comment:updatedComment})
+            })
+        }
+    })
+})
+
 router.delete('/:id', (req,res)=>{
     Comment.findOne({_id:req.params.id}).then(comment=>{
         if(!comment){
-            res.status(404).sjon({errors:{global:'Comment does not exist'}})
+            res.status(404).json({errors:{global:'Comment does not exist'}})
         }
         else{
             comment.remove().then(()=>{

@@ -1,0 +1,18 @@
+.threadContainer{
+	
+}
+
+.leftDiv{
+	float:left;
+
+}
+.rightDiv{
+	clear:left;
+	
+}
+.ui.icon.button{
+	margin:5px;
+}
+.ui.label{
+	margin:5px;
+}

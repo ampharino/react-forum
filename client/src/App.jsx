@@ -22,7 +22,7 @@ const App =({location,isAuthenticated}) => (
         <GuestRoute location={location} path="/signup" exact component={SignupPage}/>
         <UserRoute location={location} path="/newthread" exact component={NewThreadPage}/>
         <UserRoute location={location} path="/thread/:id" exact component={ThreadPage}/>
-        <UserRoute location={location} path="/:username" exact component={HistoryPage}/>
+        <UserRoute location={location} path="/users/:username" exact component={HistoryPage}/>
 
     </div>
 );

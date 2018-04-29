@@ -36,6 +36,9 @@ class FrontPage extends Component{
                             <span>submitted by {thread.author}</span><Moment fromNow>{thread.created}</Moment>
                         </Card.Meta>
                     </Card.Content>
+                    <Card.Content extra>
+                        {thread.karma} points
+                    </Card.Content>
 
                 </Card>
             )

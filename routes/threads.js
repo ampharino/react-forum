@@ -47,6 +47,20 @@ router.put('/:id', (req,res)=>{
     })
 })
 
+router.put('/karma/:id',(req,res)=>{
+    Thread.findOne({_id:req.params.id}).then(thread=>{
+        if(!thread){
+            res.status(404).json({errors:{global:"Thread does not exist"}})
+        }
+        else{
+            thread.karma+=req.body.vote
+            thread.save().then(updatedThread=>{
+                res.status(200).json({thread:updatedThread})
+            })
+        }
+    })
+})
+
 router.delete('/:id', (req,res)=>{
     Thread.findOne({_id:req.params.id}).then(thread=>{
         if(!thread){

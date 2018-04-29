@@ -15,7 +15,6 @@ class ThreadPage extends Component{
     constructor(props){
         super(props)
         this.state={
-            threadData:[],
             loading:true,
             commentBox:false,
             comments:[]
@@ -25,23 +24,25 @@ class ThreadPage extends Component{
     }
 
     componentDidMount(){
-        axios.get('/api/threads/'+ this.props.match.params.id).then(res=>{
+        axios.get('/api/comments/'+ this.props.match.params.id).then(res=>{
             this.setState({
-                threadData:res.data.thread,
-
-            })
-            axios.get('/api/comments/'+ this.state.threadData._id).then(res=>{
-                this.setState({
-                    comments:res.data.comments,
-                    loading:false
-                })
+                comments:res.data.comments,
+                loading:false
             })
         })
     }
     submit = (data) =>{
-        data.thread = this.state.threadData._id
+        data.thread = this.props.match.params.id
         return this.props.createComment(data)
-            .then(() => window.location.reload());
+            .then(() => {
+                axios.get('/api/comments/'+ this.props.match.params.id).then(res=>{
+                    this.setState({
+                        comments:res.data.comments,
+                        loading:false,
+                        commentBox:false
+                    })
+                })
+            })
     }
     toggleComment = () =>{
         this.setState({
@@ -59,7 +60,7 @@ class ThreadPage extends Component{
         return(
             <div>
                 <Segment loading={this.state.loading}>
-                    <ThreadDisplay threadData={this.state.threadData}/>
+                    <ThreadDisplay threadid={this.props.match.params.id}/>
                 </Segment>
                 <Button active={this.state.commentBox} onClick={this.toggleComment}>Comment on this thread</Button>
                 <CommentForm visible={this.state.commentBox} submit={this.submit} body=''/>
