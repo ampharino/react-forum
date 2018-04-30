@@ -20,6 +20,14 @@ const CommentSchema = new mongoose.Schema({
         karma:{
             type:Number,
             default:0
+        },
+        upvoted:{
+            type:[String],
+            default:[]
+        },
+        downvoted:{
+            type:[String],
+            default:[]
         }
     },
     {timestamps:{createdAt:'created'}}

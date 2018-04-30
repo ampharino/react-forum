@@ -54,6 +54,32 @@ router.put('/karma/:id',(req,res)=>{
         }
         else{
             thread.karma+=req.body.vote
+            let indexUp = thread.upvoted.indexOf(req.body.user)
+            let indexDown = thread.downvoted.indexOf(req.body.user)
+            switch(req.body.type){
+                case('upvote'):
+                    if(indexUp === -1){
+                        thread.upvoted.push(req.body.user)
+                        if(indexDown !== -1){
+                            thread.downvoted.splice(indexDown,1)
+                        }
+                    }
+                    else{
+                        thread.upvoted.splice(indexUp,1)
+                    }
+                    break;
+                case('downvote'):
+                    if(indexDown === -1){
+                        thread.downvoted.push(req.body.user)
+                        if(indexUp !== -1){
+                            thread.upvoted.splice(indexUp,1)
+                        }
+                    }
+                    else{
+                        thread.downvoted.splice(indexDown,1)
+                    }
+                    break;
+            }
             thread.save().then(updatedThread=>{
                 res.status(200).json({thread:updatedThread})
             })

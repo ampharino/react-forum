@@ -41,6 +41,32 @@ router.put('/karma/:id',(req,res)=>{
         }
         else{
             comment.karma+=req.body.vote
+            let indexUp = comment.upvoted.indexOf(req.body.user)
+            let indexDown = comment.downvoted.indexOf(req.body.user)
+            switch(req.body.type){
+                case('upvote'):
+                    if(indexUp === -1){
+                        comment.upvoted.push(req.body.user)
+                        if(indexDown !== -1){
+                            comment.downvoted.splice(indexDown,1)
+                        }
+                    }
+                    else{
+                        comment.upvoted.splice(indexUp,1)
+                    }
+                    break;
+                case('downvote'):
+                    if(indexDown === -1){
+                        comment.downvoted.push(req.body.user)
+                        if(indexUp !== -1){
+                            comment.upvoted.splice(indexUp,1)
+                        }
+                    }
+                    else{
+                        comment.downvoted.splice(indexDown,1)
+                    }
+                    break;
+            }
             comment.save().then(updatedComment=>{
                 res.status(200).json({comment:updatedComment})
             })

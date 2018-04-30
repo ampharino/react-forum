@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {Segment,Divider,Message,Button,Comment,Header} from 'semantic-ui-react';
+import {Segment,Divider,Message,Button,Comment,Header,Dropdown} from 'semantic-ui-react';
 import axios from 'axios'
 import {createComment} from '../../actions/comment'
 import styles from './ThreadPage.css';
@@ -10,6 +10,30 @@ import Moment from 'react-moment';
 import CommentDisplay from '../misc/CommentDisplay'
 import ThreadDisplay from '../misc/ThreadDisplay'
 
+const orderOptionss = [
+    {
+        text:'Ascending',
+        value:true
+    },
+    {
+        text:'Descending',
+        value:false
+    }
+]
+const sortOptions =[
+    {
+        text:'Date',
+        value:'Date',
+    },
+    {
+        text:'Points',
+        value:'Points'
+    }
+
+]
+const compareKarma = (a,b)=>{
+    return a.karma-b.karma
+}
 
 class ThreadPage extends Component{
     constructor(props){
@@ -17,10 +41,14 @@ class ThreadPage extends Component{
         this.state={
             loading:true,
             commentBox:false,
-            comments:[]
+            comments:[],
+            sortby:'Points',
+            ascending:false
         }
         this.submit = this.submit.bind(this);
         this.toggleComment = this.toggleComment.bind(this);
+        this.sortChange = this.sortChange.bind(this);
+        this.orderChange = this.orderChange.bind(this);
     }
 
     componentDidMount(){
@@ -51,8 +79,30 @@ class ThreadPage extends Component{
 
     }
 
+    sortChange(e,data){
+        this.setState({
+            sortby:data['value']
+        })
+    }
+    orderChange(e,data){
+        this.setState({
+            ascending:data['value']
+        })
+    }
+
     render(){
-        let commentList = this.state.comments.map(comment=>{
+        let temp = this.state.comments.slice()
+        if(this.state.sortby === 'Points'){
+            temp.sort(compareKarma)
+        }
+        if(this.state.sortby === 'Date'){
+            temp = this.state.comments.slice()
+        }
+        if(!this.state.ascending){
+            temp.reverse()
+        }
+
+        let commentList = temp.map(comment=>{
             return(
                 <CommentDisplay key={comment._id} comment={comment}/>
             )
@@ -65,6 +115,8 @@ class ThreadPage extends Component{
                 <Button active={this.state.commentBox} onClick={this.toggleComment}>Comment on this thread</Button>
                 <CommentForm visible={this.state.commentBox} submit={this.submit} body=''/>
                 <Segment loading={this.state.loading}>
+                    <Dropdown defaultValue='Points' selection options={sortOptions} onChange={this.sortChange}/>
+                    <Dropdown defaultValue={false} selection options={orderOptionss} onChange={this.orderChange}/>
                     <Comment.Group>
                         <Header as='h3' dividing>Comments</Header>
                         {commentList}

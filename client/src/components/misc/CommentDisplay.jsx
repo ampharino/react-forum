@@ -15,8 +15,8 @@ class CommentDisplay extends Component{
         this.state={
             editMode:false,
             visible:true,
-            positive:false,
-            negative:false,
+            positive:this.props.comment.upvoted.indexOf(this.props.username) >= 0,
+            negative:this.props.comment.downvoted.indexOf(this.props.username) >= 0,
             comment:this.props.comment
         }
         this.toggleEdit = this.toggleEdit.bind(this)
@@ -41,7 +41,7 @@ class CommentDisplay extends Component{
         if(this.state.positive){
             vote = -1
         }
-        axios.put(`/api/comments/karma/${this.state.comment._id}`,{vote:vote})
+        axios.put(`/api/comments/karma/${this.state.comment._id}`,{vote:vote,user:this.props.username,type:'upvote'})
             .then(res=>{
                 this.setState({
                     comment:res.data.comment,
@@ -56,7 +56,7 @@ class CommentDisplay extends Component{
         if(this.state.negative){
             vote = 1
         }
-        axios.put(`/api/comments/karma/${this.state.comment._id}`,{vote:vote})
+        axios.put(`/api/comments/karma/${this.state.comment._id}`,{vote:vote,user:this.props.username,type:'downvote'})
             .then(res=>{
                 this.setState({
                     comment:res.data.comment,

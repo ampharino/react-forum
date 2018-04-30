@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
-import {Route} from 'react-router-dom';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import HomePage from "./components/pages/HomePage";
 import LoginPage from "./components/pages/LoginPage"
 import FrontPage from "./components/pages/FrontPage"
 import UserRoute from "./components/pageroutes/UserRoute"

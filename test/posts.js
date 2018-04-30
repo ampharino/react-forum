@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+
 const Thread = require ('../models/thread');
 const Comment = require('../models/comment');
 const chai = require('chai');
@@ -11,8 +11,8 @@ chai.use(chaiHttp);
 
 describe('Threads+Comments',()=>{
     afterEach((done) =>{
-        Thread.remove({},(err)=>{
-            Comment.remove({},(err)=>{
+        Thread.remove({},()=>{
+            Comment.remove({},()=>{
                 done();
             })
         })
@@ -104,7 +104,7 @@ describe('Threads+Comments',()=>{
         temp.save().then(thread=>{
             newComment.details.thread = thread._id
             let temp2 = new Comment(newComment.details)
-            temp2.save().then(comment=>{
+            temp2.save().then(()=>{
                 chai.request(server)
                     .get(`/api/comments/${thread._id}`)
                     .end((err,res)=>{

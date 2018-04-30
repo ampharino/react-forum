@@ -31,7 +31,9 @@ class ThreadDisplay extends Component{
     componentDidMount(){
         axios.get(`/api/threads/${this.props.threadid}`).then(res=>{
             this.setState({
-                threadData:res.data.thread
+                threadData:res.data.thread,
+                positive:res.data.thread.upvoted.indexOf(this.props.username) >= 0,
+                negative:res.data.thread.downvoted.indexOf(this.props.username) >= 0,
             })
         })
     }
@@ -40,7 +42,7 @@ class ThreadDisplay extends Component{
         if(this.state.positive){
             vote = -1
         }
-        axios.put(`/api/threads/karma/${this.state.threadData._id}`,{vote:vote})
+        axios.put(`/api/threads/karma/${this.state.threadData._id}`,{vote:vote,user:this.props.username,type:'upvote'})
             .then(res=>{
                 this.setState({
                     threadData:res.data.thread,
@@ -55,7 +57,7 @@ class ThreadDisplay extends Component{
         if(this.state.negative){
             vote = 1
         }
-        axios.put(`/api/threads/karma/${this.state.threadData._id}`,{vote:vote})
+        axios.put(`/api/threads/karma/${this.state.threadData._id}`,{vote:vote,user:this.props.username,type:'downvote'})
             .then(res=>{
                 this.setState({
                     threadData:res.data.thread,
